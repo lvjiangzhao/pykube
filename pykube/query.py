@@ -118,6 +118,8 @@ class Query(BaseQuery):
         if not hasattr(self, "_query_cache"):
             cache = {"objects": []}
             cache["response"] = self.execute().json()
+            if cache["response"]["items"] is None:
+                cache["response"]["items"] = []
             for obj in cache["response"]["items"]:
                 cache["objects"].append(self.api_obj_class(self.api, obj))
             self._query_cache = cache
